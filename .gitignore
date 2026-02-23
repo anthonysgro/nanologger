@@ -6,3 +6,4 @@ kitchen_sink.log
 
 Cargo.lock
 target
+.coverage
