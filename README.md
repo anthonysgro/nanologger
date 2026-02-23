@@ -65,9 +65,8 @@ Build times measured on Apple M1 with `cargo build --release` from a clean state
 
 ## Quick Start ([demo](examples/demo.rs))
 
-```toml
-[dependencies]
-nanologger = "0.1.0"
+```sh
+cargo add nanologger
 ```
 
 ```rust
