@@ -1,5 +1,5 @@
 use proptest::prelude::*;
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -63,7 +63,7 @@ fn test_write_logger_plain_text() {
             // Clear buffer before each test case
             buf_reader.0.lock().unwrap().clear();
 
-            nanolog::__log_with_context(level, &msg, "test_mod", "test.rs", 1);
+            nanologger::__log_with_context(level, &msg, "test_mod", "test.rs", 1);
 
             let output = buf_reader.contents();
 

@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LoggerBuilder};
+use nanologger::{LogLevel, LoggerBuilder};
 use serial_test::serial;
 
 /// Test: NANOLOG_LEVEL unset → builder defaults to Info (Req 1.3)
@@ -14,6 +14,6 @@ fn env_var_unset_defaults_to_info() {
 #[test]
 fn set_level_before_init_is_noop() {
     // set_level on an uninitialized logger should not panic or have any effect
-    nanolog::set_level(LogLevel::Debug);
+    nanologger::set_level(LogLevel::Debug);
     // If we get here without panic, the no-op behavior is confirmed
 }

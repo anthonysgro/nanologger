@@ -1,12 +1,12 @@
-//! Example: Using nanocolor styling through nanolog
+//! Example: Using nanocolor styling through nanologger
 //!
-//! nanolog re-exports nanocolor's `Colorize` trait, `style()` helper, and
+//! nanologger re-exports nanocolor's `Colorize` trait, `style()` helper, and
 //! `StyledString` so you can add color and style to your log message content
 //! without adding nanocolor as a separate dependency.
 //!
 //! Run with: cargo run --example colored_messages
 
-use nanolog::{
+use nanologger::{
     info, warn, error, debug, trace,
     Colorize, style,
     LogLevel, LogOutput, LoggerBuilder,
@@ -44,7 +44,7 @@ fn main() {
 
     // --- style() for dynamic/formatted values ---
     let version = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
-    info!("running nanolog {}", version);
+    info!("running nanologger {}", version);
 
     // --- Conditional styling with .whenever() ---
     let is_tty = true;

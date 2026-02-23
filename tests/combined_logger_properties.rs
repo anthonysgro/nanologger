@@ -1,5 +1,5 @@
 use proptest::prelude::*;
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -59,7 +59,7 @@ fn test_combined_dispatches_all() {
                 buf.clear();
             }
 
-            nanolog::__log_with_context(level, &msg, "test_mod", "test.rs", 1);
+            nanologger::__log_with_context(level, &msg, "test_mod", "test.rs", 1);
 
             for (i, buf) in bufs.iter().enumerate() {
                 let output = buf.contents();

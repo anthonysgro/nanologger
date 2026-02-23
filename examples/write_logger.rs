@@ -2,7 +2,7 @@
 //!
 //! Run with: cargo run --example write_logger
 
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::fs::File;
 
 fn main() {
@@ -14,11 +14,11 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::error!("something went wrong: {}", "disk full");
-    nanolog::warn!("retries remaining: {}", 3);
-    nanolog::info!("server started on port {}", 8080);
-    nanolog::debug!("request payload: {:?}", vec![1, 2, 3]);
-    nanolog::trace!("this won't appear — below Debug level");
+    nanologger::error!("something went wrong: {}", "disk full");
+    nanologger::warn!("retries remaining: {}", 3);
+    nanologger::info!("server started on port {}", 8080);
+    nanologger::debug!("request payload: {:?}", vec![1, 2, 3]);
+    nanologger::trace!("this won't appear — below Debug level");
 
     println!("Wrote logs to app.log (plain text, no ANSI codes)");
 }

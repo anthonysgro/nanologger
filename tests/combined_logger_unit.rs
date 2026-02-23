@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -42,7 +42,7 @@ fn test_combined_logger_multiple_outputs() {
         .expect("init should succeed");
 
     // Log at Info level — should reach buf1 (Trace filter) but not buf2 (Warn filter)
-    nanolog::__log_with_context(LogLevel::Info, "info message", "test_mod", "test.rs", 1);
+    nanologger::__log_with_context(LogLevel::Info, "info message", "test_mod", "test.rs", 1);
 
     assert!(
         buf1_reader.contents().contains("info message"),
@@ -54,7 +54,7 @@ fn test_combined_logger_multiple_outputs() {
     );
 
     // Log at Error level — should reach both writers
-    nanolog::__log_with_context(LogLevel::Error, "error message", "test_mod", "test.rs", 2);
+    nanologger::__log_with_context(LogLevel::Error, "error message", "test_mod", "test.rs", 2);
 
     assert!(
         buf1_reader.contents().contains("error message"),

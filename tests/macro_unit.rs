@@ -3,22 +3,22 @@ use std::process::Command;
 /// Verify macros compile with positional, named, and debug format arguments.
 #[test]
 fn test_macros_accept_format_args() {
-    nanolog::init().ok();
+    nanologger::init().ok();
 
     let value = 42;
     let name = "world";
     let items = vec![1, 2, 3];
 
     // Positional arguments
-    nanolog::error!("code {}", value);
-    nanolog::warn!("code {}", value);
-    nanolog::info!("hello {}", name);
+    nanologger::error!("code {}", value);
+    nanologger::warn!("code {}", value);
+    nanologger::info!("hello {}", name);
 
     // Named arguments
-    nanolog::debug!("value is {val}", val = value);
+    nanologger::debug!("value is {val}", val = value);
 
     // Debug format
-    nanolog::trace!("items: {:?}", items);
+    nanologger::trace!("items: {:?}", items);
 }
 
 /// Verify that macro output goes to stderr, not stdout.
@@ -30,9 +30,9 @@ fn test_macros_accept_format_args() {
 fn test_macros_write_to_stderr_not_stdout() {
     if std::env::var("__NANOLOG_STDERR_CHECK").is_ok() {
         // Subprocess mode: just log and exit.
-        nanolog::init().unwrap();
-        nanolog::info!("hello from info");
-        nanolog::error!("hello from error");
+        nanologger::init().unwrap();
+        nanologger::info!("hello from info");
+        nanologger::error!("hello from error");
         return;
     }
 

@@ -1,8 +1,8 @@
-//! # nanolog
+//! # nanologger
 //!
 //! A minimal, colored logger for Rust CLI applications.
 //!
-//! nanolog provides five leveled log macros ([`error!`], [`warn!`], [`info!`],
+//! nanologger provides five leveled log macros ([`error!`], [`warn!`], [`info!`],
 //! [`debug!`], [`trace!`]) that write colored, formatted output to stderr. It
 //! supports optional timestamps, source locations, thread info, module
 //! filtering, file logging, and combined multi-output configurations.
@@ -10,7 +10,7 @@
 //! ## Quick start
 //!
 //! ```rust,no_run
-//! use nanolog::{LoggerBuilder, LogLevel};
+//! use nanologger::{LoggerBuilder, LogLevel};
 //!
 //! LoggerBuilder::new()
 //!     .level(LogLevel::Trace)
@@ -18,18 +18,18 @@
 //!     .init()
 //!     .unwrap();
 //!
-//! nanolog::error!("something went wrong: {}", "disk full");
-//! nanolog::warn!("retries remaining: {}", 3);
-//! nanolog::info!("server started on port {}", 8080);
-//! nanolog::debug!("request payload: {:?}", vec![1, 2, 3]);
-//! nanolog::trace!("entering function");
+//! nanologger::error!("something went wrong: {}", "disk full");
+//! nanologger::warn!("retries remaining: {}", 3);
+//! nanologger::info!("server started on port {}", 8080);
+//! nanologger::debug!("request payload: {:?}", vec![1, 2, 3]);
+//! nanologger::trace!("entering function");
 //! ```
 //!
 //! Or with defaults (Info level, stderr, no timestamps):
 //!
 //! ```rust,no_run
-//! nanolog::init().unwrap();
-//! nanolog::info!("hello");
+//! nanologger::init().unwrap();
+//! nanologger::info!("hello");
 //! ```
 //!
 //! ## Log levels
@@ -59,7 +59,7 @@
 //! filter:
 //!
 //! ```rust,no_run
-//! use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+//! use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 //! use std::fs::File;
 //!
 //! let file = File::create("app.log").unwrap();
@@ -83,29 +83,29 @@
 //!
 //! ## `log` facade integration
 //!
-//! Enable the `log` feature to use nanolog as a backend for the [`log`](https://crates.io/crates/log) crate:
+//! Enable the `log` feature to use nanologger as a backend for the [`log`](https://crates.io/crates/log) crate:
 //!
 //! ```toml
 //! [dependencies]
-//! nanolog = { version = "0.1.0", features = ["log"] }
+//! nanologger = { version = "0.1.0", features = ["log"] }
 //! ```
 //!
-//! When initialized, nanolog registers itself via `log::set_logger`, so
-//! libraries using `log::info!()` etc. route through nanolog automatically.
+//! When initialized, nanologger registers itself via `log::set_logger`, so
+//! libraries using `log::info!()` etc. route through nanologger automatically.
 //!
 //! ## Colored message content
 //!
-//! nanolog re-exports [`Colorize`], [`style`], and [`StyledString`] from
+//! nanologger re-exports [`Colorize`], [`style`], and [`StyledString`] from
 //! [nanocolor](https://crates.io/crates/nanocolor), so you can style log
 //! message content without an extra dependency:
 //!
 //! ```rust,no_run
-//! use nanolog::{info, Colorize, style};
+//! use nanologger::{info, Colorize, style};
 //!
 //! info!("listening on {}", "127.0.0.1:3000".cyan());
 //!
 //! let v = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
-//! info!("running nanolog {}", v);
+//! info!("running nanologger {}", v);
 //! ```
 
 use std::fmt;
@@ -477,7 +477,7 @@ pub struct InitError;
 
 impl fmt::Display for InitError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "nanolog: logger already initialized")
+        write!(f, "nanologger: logger already initialized")
     }
 }
 

@@ -1,4 +1,4 @@
-use nanolog::{init, LogLevel, LoggerBuilder, InitError};
+use nanologger::{init, LogLevel, LoggerBuilder, InitError};
 
 /// Tests run in a single function to guarantee ordering, since OnceLock is per-process.
 #[test]

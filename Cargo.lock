@@ -226,7 +226,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a0f702a193a5be174303d634f962954e8563f8ab2df4ced037afd583c7e75c69"
 
 [[package]]
-name = "nanolog"
+name = "nanologger"
 version = "0.1.0"
 dependencies = [
  "log",

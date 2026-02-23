@@ -1,5 +1,5 @@
 use proptest::prelude::*;
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -71,7 +71,7 @@ fn test_per_output_level_filtering() {
                 buf.clear();
             }
 
-            nanolog::__log_with_context(msg_level, &msg, "test_mod", "test.rs", 1);
+            nanologger::__log_with_context(msg_level, &msg, "test_mod", "test.rs", 1);
 
             for (out_level, buf) in &bufs {
                 let output = buf.contents();

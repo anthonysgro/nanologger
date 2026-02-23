@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -28,7 +28,7 @@ impl Write for SharedBuf {
 /// - Unnamed thread falls back to ThreadId (Req 2.2)
 /// - Default disabled produces no thread info segment (Req 1.2)
 ///
-/// Since nanolog uses a global OnceLock, we can only init once per test binary.
+/// Since nanologger uses a global OnceLock, we can only init once per test binary.
 /// We enable thread_info and verify named/unnamed thread output, then check
 /// that the format matches expectations.
 #[test]
@@ -47,7 +47,7 @@ fn test_thread_info_named_and_unnamed_threads() {
     let handle = std::thread::Builder::new()
         .name("test-worker".into())
         .spawn(|| {
-            nanolog::info!("from named thread");
+            nanologger::info!("from named thread");
         })
         .unwrap();
     handle.join().unwrap();
@@ -64,7 +64,7 @@ fn test_thread_info_named_and_unnamed_threads() {
 
     // Log from an unnamed thread
     let handle = std::thread::spawn(|| {
-        nanolog::info!("from unnamed thread");
+        nanologger::info!("from unnamed thread");
     });
     handle.join().unwrap();
 

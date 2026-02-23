@@ -1,12 +1,12 @@
 //! Tests that module filtering works through the `log` facade.
 //!
-//! This test binary initializes nanolog with a module deny list and verifies
+//! This test binary initializes nanologger with a module deny list and verifies
 //! that messages from denied modules are filtered out when using `log::info!`.
 #![cfg(feature = "log")]
 
 use std::io::Cursor;
 use std::sync::{Arc, Mutex};
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 /// A shared buffer we can inspect after logging.
 fn shared_buffer() -> (LogOutput, Arc<Mutex<Cursor<Vec<u8>>>>) {

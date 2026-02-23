@@ -1,11 +1,11 @@
 [package]
-name = "nanolog"
+name = "nanologger"
 version = "0.1.0"
 edition = "2021"
 authors = ["Anthony Sgro"]
 description = "A minimal, colored logger for Rust CLI applications"
 license = "MIT"
-repository = "https://github.com/anthonysgro/nanolog"
+repository = "https://github.com/anthonysgro/nanologger"
 keywords = ["logging", "logger", "cli", "color", "minimal"]
 categories = ["development-tools::debugging", "command-line-interface"]
 readme = "README.md"

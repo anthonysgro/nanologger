@@ -3,7 +3,7 @@
 
 use std::io::Cursor;
 use std::sync::{Arc, Mutex};
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 #[derive(Clone)]
 struct SharedWriter(Arc<Mutex<Cursor<Vec<u8>>>>);

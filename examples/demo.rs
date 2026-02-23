@@ -1,4 +1,4 @@
-use nanolog::{LoggerBuilder, LogLevel};
+use nanologger::{LoggerBuilder, LogLevel};
 
 fn main() {
     LoggerBuilder::new()
@@ -7,9 +7,9 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::error!("something went wrong: {}", "disk full");
-    nanolog::warn!("retries remaining: {}", 3);
-    nanolog::info!("server started on port {}", 8080);
-    nanolog::debug!("request payload: {:?}", vec![1, 2, 3]);
-    nanolog::trace!("entering function");
+    nanologger::error!("something went wrong: {}", "disk full");
+    nanologger::warn!("retries remaining: {}", 3);
+    nanologger::info!("server started on port {}", 8080);
+    nanologger::debug!("request payload: {:?}", vec![1, 2, 3]);
+    nanologger::trace!("entering function");
 }

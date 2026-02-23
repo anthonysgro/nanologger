@@ -5,17 +5,17 @@
 //! and log facade can only be initialized once per process.
 #![cfg(feature = "log")]
 
-use nanolog::{LogLevel, LoggerBuilder};
+use nanologger::{LogLevel, LoggerBuilder};
 
 #[test]
 fn test_log_facade_integration() {
-    // Initialize nanolog with Trace level so all messages pass through.
+    // Initialize nanologger with Trace level so all messages pass through.
     LoggerBuilder::new()
         .level(LogLevel::Trace)
         .init()
         .expect("init should succeed");
 
-    // 1. Verify log facade macros route through nanolog without panicking.
+    // 1. Verify log facade macros route through nanologger without panicking.
     log::error!("facade error");
     log::warn!("facade warn");
     log::info!("facade info");

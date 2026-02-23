@@ -2,7 +2,7 @@
 //!
 //! Run with: cargo run --example module_filter
 
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 fn main() {
     // Only allow logs from "myapp::db", deny "myapp::db::pool"
@@ -25,7 +25,7 @@ fn main() {
     ];
 
     for (module, expected) in cases {
-        let result = nanolog::matches_module_filter(
+        let result = nanologger::matches_module_filter(
             module,
             &["myapp::db".into()],
             &["myapp::db::pool".into()],

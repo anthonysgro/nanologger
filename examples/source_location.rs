@@ -2,7 +2,7 @@
 //!
 //! Run with: cargo run --example source_location
 
-use nanolog::{LogLevel, LoggerBuilder};
+use nanologger::{LogLevel, LoggerBuilder};
 
 fn main() {
     LoggerBuilder::new()
@@ -12,9 +12,9 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::error!("something went wrong");
-    nanolog::warn!("heads up: {}", "low memory");
-    nanolog::info!("started on port {}", 8080);
-    nanolog::debug!("payload: {:?}", vec![1, 2, 3]);
-    nanolog::trace!("entering main");
+    nanologger::error!("something went wrong");
+    nanologger::warn!("heads up: {}", "low memory");
+    nanologger::info!("started on port {}", 8080);
+    nanologger::debug!("payload: {:?}", vec![1, 2, 3]);
+    nanologger::trace!("entering main");
 }

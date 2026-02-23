@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -40,7 +40,7 @@ fn test_module_allow_list_filters_end_to_end() {
 
     // This uses the macro which captures module_path!() automatically.
     // The module path for this integration test file is "module_filter_unit".
-    nanolog::info!("allowed message");
+    nanologger::info!("allowed message");
 
     let output = buf_reader.contents();
     assert!(
@@ -50,7 +50,7 @@ fn test_module_allow_list_filters_end_to_end() {
 
     // Simulate a message from a different module (not in allow list).
     buf_reader.0.lock().unwrap().clear();
-    nanolog::__log_with_context(
+    nanologger::__log_with_context(
         LogLevel::Info,
         "denied message",
         "some_other_module",

@@ -2,7 +2,7 @@
 //!
 //! Run with: cargo run --example combined_logger
 
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::fs::File;
 
 fn main() {
@@ -15,11 +15,11 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::error!("critical failure");
-    nanolog::warn!("something looks off");
-    nanolog::info!("this only goes to the file");
-    nanolog::debug!("verbose detail — file only");
-    nanolog::trace!("very noisy — file only");
+    nanologger::error!("critical failure");
+    nanologger::warn!("something looks off");
+    nanologger::info!("this only goes to the file");
+    nanologger::debug!("verbose detail — file only");
+    nanologger::trace!("very noisy — file only");
 
     println!("\nTerminal got Error + Warn. File got all five. Check verbose.log.");
 }

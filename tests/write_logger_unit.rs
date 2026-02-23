@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -37,7 +37,7 @@ fn test_write_logger_receives_output() {
         .init()
         .expect("init should succeed");
 
-    nanolog::__log_with_context(LogLevel::Info, "hello write logger", "test_mod", "test.rs", 1);
+    nanologger::__log_with_context(LogLevel::Info, "hello write logger", "test_mod", "test.rs", 1);
 
     let output = buf_reader.contents();
     assert!(output.contains("hello write logger"), "WriteLogger should capture the message, got: {output:?}");

@@ -1,5 +1,5 @@
 use proptest::prelude::*;
-use nanolog::LogLevel;
+use nanologger::LogLevel;
 
 fn arb_log_level() -> impl Strategy<Value = LogLevel> {
     prop_oneof![

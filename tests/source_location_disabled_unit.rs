@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -37,7 +37,7 @@ fn test_source_location_disabled() {
         .init()
         .expect("init should succeed");
 
-    nanolog::info!("no location");
+    nanologger::info!("no location");
 
     let output = buf_reader.contents();
 

@@ -5,7 +5,7 @@
 //!   NANOLOG_LEVEL=error cargo run --example env_level
 //!   cargo run --example env_level
 
-use nanolog::{LoggerBuilder, LogLevel, LogOutput};
+use nanologger::{LoggerBuilder, LogLevel, LogOutput};
 
 fn main() {
     // The builder reads NANOLOG_LEVEL from the environment automatically.
@@ -15,18 +15,18 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::info!("logger initialized (level came from NANOLOG_LEVEL or default Info)");
-    nanolog::debug!("this only shows if NANOLOG_LEVEL=debug or trace");
-    nanolog::trace!("this only shows if NANOLOG_LEVEL=trace");
+    nanologger::info!("logger initialized (level came from NANOLOG_LEVEL or default Info)");
+    nanologger::debug!("this only shows if NANOLOG_LEVEL=debug or trace");
+    nanologger::trace!("this only shows if NANOLOG_LEVEL=trace");
 
     // Change the level at runtime — useful after parsing CLI flags like --verbose
-    nanolog::set_level(LogLevel::Trace);
-    nanolog::info!("switched to Trace at runtime");
-    nanolog::debug!("now debug messages are visible");
-    nanolog::trace!("and trace too");
+    nanologger::set_level(LogLevel::Trace);
+    nanologger::info!("switched to Trace at runtime");
+    nanologger::debug!("now debug messages are visible");
+    nanologger::trace!("and trace too");
 
     // Tighten it back up
-    nanolog::set_level(LogLevel::Error);
-    nanolog::warn!("this warn is hidden after set_level(Error)");
-    nanolog::error!("only errors come through now");
+    nanologger::set_level(LogLevel::Error);
+    nanologger::warn!("this warn is hidden after set_level(Error)");
+    nanologger::error!("only errors come through now");
 }

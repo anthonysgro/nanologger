@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LoggerBuilder};
+use nanologger::{LogLevel, LoggerBuilder};
 use proptest::prelude::*;
 use serial_test::serial;
 

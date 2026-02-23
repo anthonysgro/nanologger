@@ -1,7 +1,7 @@
-# 📝 nanolog
+# 📝 nanologger
 
-[![Crates.io](https://img.shields.io/crates/v/nanolog)](https://crates.io/crates/nanolog)
-[![Docs.rs](https://docs.rs/nanolog/badge.svg)](https://docs.rs/nanolog/latest/nanolog/)
+[![Crates.io](https://img.shields.io/crates/v/nanologger)](https://crates.io/crates/nanologger)
+[![Docs.rs](https://docs.rs/nanologger/badge.svg)](https://docs.rs/nanologger/latest/nanologger/)
 
 A minimal, colored logger for Rust CLI applications.
 
@@ -10,7 +10,7 @@ Part of the nano crate family — minimal, zero-dependency building blocks for C
 - [nanocolor](https://github.com/anthonysgro/nanocolor) — terminal colors and styles
 - [nanospinner](https://github.com/anthonysgro/nanospinner) — terminal spinners
 - [nanoprogress](https://github.com/anthonysgro/nanoprogress) — progress bars
-- [nanolog](https://github.com/anthonysgro/nanolog) — minimal logger
+- [nanologger](https://github.com/anthonysgro/nanologger) — minimal logger
 - [nanotime](https://github.com/anthonysgro/nanotime) — time utilities
 
 Colored, leveled logging to stderr with `format!`-style macros, optional timestamps, source locations, thread info, module filtering, file logging, and `log` facade integration — all in a single file with minimal dependencies.
@@ -19,7 +19,7 @@ Colored, leveled logging to stderr with `format!`-style macros, optional timesta
 
 Most Rust logging crates are feature-rich but pull in large dependency trees or offer far more than a CLI app needs. If all you want is colored leveled output to stderr and maybe a log file, those crates are overkill.
 
-`nanolog` solves this by providing the essentials and nothing more:
+`nanologger` solves this by providing the essentials and nothing more:
 
 - Colored, bold level prefixes (via nanocolor) with automatic TTY detection
 - Five log macros: `error!`, `warn!`, `info!`, `debug!`, `trace!`
@@ -34,11 +34,11 @@ Most Rust logging crates are feature-rich but pull in large dependency trees or 
 
 ## Comparison
 
-nanolog is intentionally minimal. If you need structured logging, spans, async instrumentation, or regex-based env filtering, use `tracing` or `env_logger` — they're great crates.
+nanologger is intentionally minimal. If you need structured logging, spans, async instrumentation, or regex-based env filtering, use `tracing` or `env_logger` — they're great crates.
 
-nanolog is for when you just want colored leveled output to stderr and maybe a log file, without pulling in a dependency tree.
+nanologger is for when you just want colored leveled output to stderr and maybe a log file, without pulling in a dependency tree.
 
-| Feature | `nanolog` | `simplelog` | `env_logger` | `tracing` |
+| Feature | `nanologger` | `simplelog` | `env_logger` | `tracing` |
 |---------|:---------:|:-----------:|:------------:|:---------:|
 | Dependencies (transitive) | 2* | 11 | 15 | 16† |
 | Clean build (release) | ~0.3s | ~2.0s | ~3.8s | ~3.0s |
@@ -65,11 +65,11 @@ Build times measured on Apple M1 with `cargo build --release` from a clean state
 
 ```toml
 [dependencies]
-nanolog = "0.1.0"
+nanologger = "0.1.0"
 ```
 
 ```rust
-use nanolog::{LoggerBuilder, LogLevel};
+use nanologger::{LoggerBuilder, LogLevel};
 
 fn main() {
     LoggerBuilder::new()
@@ -78,11 +78,11 @@ fn main() {
         .init()
         .unwrap();
 
-    nanolog::error!("something went wrong: {}", "disk full");
-    nanolog::warn!("retries remaining: {}", 3);
-    nanolog::info!("server started on port {}", 8080);
-    nanolog::debug!("request payload: {:?}", vec![1, 2, 3]);
-    nanolog::trace!("entering function");
+    nanologger::error!("something went wrong: {}", "disk full");
+    nanologger::warn!("retries remaining: {}", 3);
+    nanologger::info!("server started on port {}", 8080);
+    nanologger::debug!("request payload: {:?}", vec![1, 2, 3]);
+    nanologger::trace!("entering function");
 }
 ```
 
@@ -90,8 +90,8 @@ Or with the simplest possible setup:
 
 ```rust
 fn main() {
-    nanolog::init().unwrap(); // defaults to Info level, no timestamps
-    nanolog::info!("hello");
+    nanologger::init().unwrap(); // defaults to Info level, no timestamps
+    nanologger::info!("hello");
 }
 ```
 
@@ -100,18 +100,18 @@ fn main() {
 ### Basic logging
 
 ```rust
-use nanolog::{LoggerBuilder, LogLevel};
+use nanologger::{LoggerBuilder, LogLevel};
 
 LoggerBuilder::new()
     .level(LogLevel::Debug)
     .init()
     .unwrap();
 
-nanolog::error!("critical failure");
-nanolog::warn!("something looks off");
-nanolog::info!("server started on port {}", 8080);
-nanolog::debug!("request payload: {:?}", vec![1, 2, 3]);
-nanolog::trace!("this won't appear — below Debug level");
+nanologger::error!("critical failure");
+nanologger::warn!("something looks off");
+nanologger::info!("server started on port {}", 8080);
+nanologger::debug!("request payload: {:?}", vec![1, 2, 3]);
+nanologger::trace!("this won't appear — below Debug level");
 ```
 
 Messages at or above the configured level are written to stderr with colored prefixes. Messages below the level are silently discarded. Calling a log macro before initialization is safe — it's a no-op.
@@ -125,7 +125,7 @@ LoggerBuilder::new()
     .init()
     .unwrap();
 
-nanolog::info!("with timestamp"); // "14:30:05.042 [INFO]  with timestamp"
+nanologger::info!("with timestamp"); // "14:30:05.042 [INFO]  with timestamp"
 ```
 
 ### Source location ([example](examples/source_location.rs))
@@ -137,7 +137,7 @@ LoggerBuilder::new()
     .init()
     .unwrap();
 
-nanolog::info!("started"); // "[INFO]  [src/main.rs:8] started"
+nanologger::info!("started"); // "[INFO]  [src/main.rs:8] started"
 ```
 
 ### Thread info ([example](examples/thread_info.rs))
@@ -150,12 +150,12 @@ LoggerBuilder::new()
     .init()
     .unwrap();
 
-nanolog::info!("from main"); // "14:30:05.042 (main) [INFO]  from main"
+nanologger::info!("from main"); // "14:30:05.042 (main) [INFO]  from main"
 
 std::thread::Builder::new()
     .name("worker-1".into())
     .spawn(|| {
-        nanolog::info!("from worker"); // "14:30:05.043 (worker-1) [INFO]  from worker"
+        nanologger::info!("from worker"); // "14:30:05.043 (worker-1) [INFO]  from worker"
     })
     .unwrap()
     .join()
@@ -175,14 +175,14 @@ NANOLOG_LEVEL=trace cargo run
 ### Runtime level changes
 
 ```rust
-nanolog::set_level(LogLevel::Trace);  // open the floodgates
-nanolog::set_level(LogLevel::Error);  // quiet down
+nanologger::set_level(LogLevel::Trace);  // open the floodgates
+nanologger::set_level(LogLevel::Error);  // quiet down
 ```
 
 ### File logging ([example](examples/write_logger.rs))
 
 ```rust
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::fs::File;
 
 let file = File::create("app.log").expect("failed to create log file");
@@ -201,7 +201,7 @@ Writer outputs always produce plain text (no ANSI codes).
 Route different severity levels to different destinations:
 
 ```rust
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::fs::File;
 
 let file = File::create("verbose.log").unwrap();
@@ -248,40 +248,40 @@ Output is plain text via `print!()`, so it only appears on test failure (or with
 
 ### Colored message content ([example](examples/colored_messages.rs))
 
-nanolog re-exports nanocolor's `Colorize` trait, `style()` helper, and `StyledString`, so you can style log message content without adding nanocolor as a separate dependency:
+nanologger re-exports nanocolor's `Colorize` trait, `style()` helper, and `StyledString`, so you can style log message content without adding nanocolor as a separate dependency:
 
 ```rust
-use nanolog::{info, error, Colorize, style};
+use nanologger::{info, error, Colorize, style};
 
 info!("server listening on {}", "127.0.0.1:3000".cyan());
 error!("connection to {} failed", "db-primary".red().bold());
 
 let version = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
-info!("running nanolog {}", version);
+info!("running nanologger {}", version);
 ```
 
 ### `log` facade integration ([example](examples/log_facade.rs))
 
-Enable the `log` feature to use nanolog as a backend for the `log` crate:
+Enable the `log` feature to use nanologger as a backend for the `log` crate:
 
 ```toml
 [dependencies]
-nanolog = { version = "0.1.0", features = ["log"] }
+nanologger = { version = "0.1.0", features = ["log"] }
 ```
 
 ```rust
-use nanolog::{LogLevel, LoggerBuilder};
+use nanologger::{LogLevel, LoggerBuilder};
 
 LoggerBuilder::new()
     .level(LogLevel::Trace)
     .init()
     .unwrap();
 
-// log crate macros now route through nanolog
+// log crate macros now route through nanologger
 log::info!("from the log facade");
 
-// nanolog's own macros still work alongside
-nanolog::info!("from nanolog directly");
+// nanologger's own macros still work alongside
+nanologger::info!("from nanologger directly");
 ```
 
 ## Message format
@@ -349,19 +349,19 @@ pub enum LogLevel {
 
 | Function | Description |
 |----------|-------------|
-| `nanolog::init()` | Initialize with defaults (Info level, stderr, no timestamps) |
-| `nanolog::set_level(level)` | Change global log level at runtime. No-op if not initialized |
-| `nanolog::matches_module_filter(path, allow, deny)` | Check if a module path passes the filter |
+| `nanologger::init()` | Initialize with defaults (Info level, stderr, no timestamps) |
+| `nanologger::set_level(level)` | Change global log level at runtime. No-op if not initialized |
+| `nanologger::matches_module_filter(path, allow, deny)` | Check if a module path passes the filter |
 
 ### Macros
 
 | Macro | Level |
 |-------|-------|
-| `nanolog::error!(...)` | Error |
-| `nanolog::warn!(...)` | Warn |
-| `nanolog::info!(...)` | Info |
-| `nanolog::debug!(...)` | Debug |
-| `nanolog::trace!(...)` | Trace |
+| `nanologger::error!(...)` | Error |
+| `nanologger::warn!(...)` | Warn |
+| `nanologger::info!(...)` | Info |
+| `nanologger::debug!(...)` | Debug |
+| `nanologger::trace!(...)` | Trace |
 
 All macros accept `format!`-style arguments. Safe to call before initialization (no-op).
 

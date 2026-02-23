@@ -1,4 +1,4 @@
-use nanolog::{LogLevel, LogOutput, LoggerBuilder};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -40,7 +40,7 @@ fn test_source_location_integration() {
         .expect("init should succeed");
 
     // Use the macro — it captures file!() and line!() automatically.
-    nanolog::info!("location enabled");
+    nanologger::info!("location enabled");
 
     let output = buf_reader.contents();
 
