@@ -1,8 +1,8 @@
 # 📝 nanologger [![Crates.io](https://img.shields.io/crates/v/nanologger)](https://crates.io/crates/nanologger) [![Docs.rs](https://docs.rs/nanologger/badge.svg)](https://docs.rs/nanologger/latest/nanologger/) [![Build Status](https://github.com/anthonysgro/nanologger/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/anthonysgro/nanologger/actions) [![Coverage Status](https://coveralls.io/repos/github/anthonysgro/nanologger/badge.svg?branch=main)](https://coveralls.io/github/anthonysgro/nanologger?branch=main) [![License](https://img.shields.io/crates/l/nanologger)](https://crates.io/crates/nanologger)
 
-A minimal, colored logger for Rust CLI applications.
+A minimal logger for Rust.
 
-Part of the nano crate family — minimal, zero-dependency building blocks for CLI apps in Rust:
+Part of the nano crate family — minimal, zero-dependency building blocks for Rust:
 
 - [nanocolor](https://github.com/anthonysgro/nanocolor) — terminal colors and styles
 - [nanospinner](https://github.com/anthonysgro/nanospinner) — terminal spinners
@@ -16,7 +16,7 @@ Colored, leveled logging to stderr with `format!`-style macros, optional timesta
 
 ## Motivation
 
-Most Rust logging crates are feature-rich but pull in large dependency trees or offer far more than a CLI app needs. If all you want is colored leveled output to stderr and maybe a log file, those crates are overkill.
+Most Rust logging crates are feature-rich but pull in large dependency trees or offer far more than you need. If all you want is colored leveled output to stderr and maybe a log file, those crates are overkill.
 
 `nanologger` solves this by providing the essentials and nothing more:
 
