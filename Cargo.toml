@@ -1,6 +1,6 @@
 [package]
 name = "nanologger"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Anthony Sgro"]
 description = "A minimal, colored logger for Rust CLI applications"
