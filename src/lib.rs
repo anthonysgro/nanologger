@@ -772,6 +772,7 @@ impl log::Log for Logger {
 mod tests {
     use super::*;
     use proptest::prelude::*;
+    use serial_test::serial;
 
     fn arb_log_level() -> impl Strategy<Value = LogLevel> {
         prop_oneof![
@@ -786,6 +787,7 @@ mod tests {
     // ── format_message / format_message_with_timestamp unit tests ──
 
     #[test]
+    #[serial]
     fn test_error_color_is_red_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Error, "fail", true);
@@ -798,6 +800,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_warn_color_is_yellow_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Warn, "caution", true);
@@ -810,6 +813,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_info_color_is_green_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Info, "ok", true);
@@ -822,6 +826,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_debug_color_is_blue_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Debug, "details", true);
@@ -834,6 +839,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_trace_color_is_magenta_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Trace, "verbose", true);
@@ -863,6 +869,7 @@ mod tests {
     }
 
     #[test]
+    #[serial]
     fn test_timestamp_prepended_color() {
         nanocolor::set_colors_override(true);
         let output = format_message_with_timestamp(LogLevel::Error, "fail", true, Some("09:00:00"));
