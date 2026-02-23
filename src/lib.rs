@@ -1,6 +1,6 @@
 //! # nanologger
 //!
-//! A minimal, colored logger for Rust CLI applications.
+//! A minimal logger for Rust.
 //!
 //! nanologger provides five leveled log macros ([`error!`], [`warn!`], [`info!`],
 //! [`debug!`], [`trace!`]) that write colored, formatted output to stderr. It
