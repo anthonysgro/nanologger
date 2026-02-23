@@ -1,5 +1,8 @@
-target
 .kiro
+
 app.log
 verbose.log
+kitchen_sink.log
+
 Cargo.lock
+target

@@ -15,6 +15,8 @@ Part of the nano crate family — minimal, zero-dependency building blocks for C
 
 Colored, leveled logging to stderr with `format!`-style macros, optional timestamps, source locations, thread info, module filtering, file logging, and `log` facade integration — all in a single file with minimal dependencies.
 
+![demo](demo.png)
+
 ## Motivation
 
 Most Rust logging crates are feature-rich but pull in large dependency trees or offer far more than a CLI app needs. If all you want is colored leveled output to stderr and maybe a log file, those crates are overkill.
@@ -260,6 +262,21 @@ let version = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
 info!("running nanologger {}", version);
 ```
 
+### Disabling colors ([example](examples/disable_colors.rs))
+
+Colors are on by default when stderr is a TTY, and off when piped. You can also control them explicitly:
+
+```sh
+# Via environment variable (respected by nanocolor)
+NO_COLOR=1 cargo run
+```
+
+```rust
+// Or programmatically
+nanocolor::set_colors_override(false);  // force colors off
+nanocolor::clear_colors_override();     // restore automatic TTY detection
+```
+
 ### `log` facade integration ([example](examples/log_facade.rs))
 
 Enable the `log` feature to use nanologger as a backend for the `log` crate:
@@ -283,6 +300,55 @@ log::info!("from the log facade");
 // nanologger's own macros still work alongside
 nanologger::info!("from nanologger directly");
 ```
+
+### Kitchen sink ([example](examples/kitchen_sink.rs))
+
+Every feature in one place — timestamps, source location, thread info, module filtering, combined logger with per-output levels, styled content, runtime level changes, and log facade integration:
+
+```rust
+use nanologger::{
+    info, warn, error, debug, trace,
+    Colorize, style,
+    LogLevel, LogOutput, LoggerBuilder,
+};
+use std::fs::File;
+
+fn main() {
+    let file = File::create("kitchen_sink.log").unwrap();
+
+    LoggerBuilder::new()
+        .level(LogLevel::Trace)
+        .timestamps(true)
+        .source_location(true)
+        .thread_info(true)
+        .module_allow(vec!["kitchen_sink".into()])
+        .module_deny(vec!["kitchen_sink::noisy".into()])
+        .add_output(LogOutput::term(LogLevel::Info))
+        .add_output(LogOutput::writer(LogLevel::Trace, file))
+        .init()
+        .unwrap();
+
+    error!("disk usage at {}%", 98.red().bold());
+    warn!("pool running low: {} available", 2.yellow());
+    info!("listening on {}", "0.0.0.0:8080".cyan().bold());
+    debug!("loaded {} routes", 42);
+    trace!("entering main()");
+
+    let version = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
+    info!("running nanologger {version}");
+
+    nanologger::set_level(LogLevel::Error);
+    warn!("hidden after set_level(Error)");
+    error!("only errors now");
+}
+```
+
+```sh
+cargo run --example kitchen_sink
+cargo run --example kitchen_sink --features log   # with log facade
+```
+
+Terminal shows Info+, the file gets everything. Check `kitchen_sink.log` for the full trace-level output.
 
 ## Message format
 
