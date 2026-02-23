@@ -1,0 +1,24 @@
+[package]
+name = "nanolog"
+version = "0.1.0"
+edition = "2021"
+authors = ["Anthony Sgro"]
+description = "A minimal, colored logger for Rust CLI applications"
+license = "MIT"
+repository = "https://github.com/anthonysgro/nanolog"
+keywords = ["logging", "logger", "cli", "color", "minimal"]
+categories = ["development-tools::debugging", "command-line-interface"]
+readme = "README.md"
+exclude = ["tests/*.proptest-regressions"]
+
+[features]
+log = ["dep:log"]
+
+[dependencies]
+nanocolor = "0.1"
+nanotime = "0.1"
+log = { version = "0.4", optional = true }
+
+[dev-dependencies]
+proptest = "1"
+serial_test = "3"
