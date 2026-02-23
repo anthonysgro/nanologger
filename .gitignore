@@ -2,3 +2,4 @@ target
 .kiro
 app.log
 verbose.log
+Cargo.lock
