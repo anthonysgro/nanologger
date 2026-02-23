@@ -79,7 +79,7 @@
 //! - **Thread info** — `.thread_info(true)` shows `(thread-name)` or `(ThreadId(N))`
 //! - **Module filtering** — `.module_allow()` / `.module_deny()` for prefix-based filtering
 //! - **Runtime level changes** — [`set_level`] adjusts the global level after init
-//! - **Env var** — `NANOLOG_LEVEL` sets the default level (case-insensitive)
+//! - **Env var** — `NANOLOGGER_LEVEL` sets the default level (case-insensitive)
 //!
 //! ## `log` facade integration
 //!
@@ -358,7 +358,7 @@ pub struct LoggerBuilder {
 impl LoggerBuilder {
     /// Creates a new builder with the default level (`Info`) and timestamps disabled.
     pub fn new() -> Self {
-        let default_level = std::env::var("NANOLOG_LEVEL")
+        let default_level = std::env::var("NANOLOGGER_LEVEL")
             .ok()
             .and_then(|s| LogLevel::from_str(&s).ok())
             .unwrap_or(LogLevel::Info);

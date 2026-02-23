@@ -1,11 +1,11 @@
 use nanologger::{LogLevel, LoggerBuilder};
 use serial_test::serial;
 
-/// Test: NANOLOG_LEVEL unset → builder defaults to Info (Req 1.3)
+/// Test: NANOLOGGER_LEVEL unset → builder defaults to Info (Req 1.3)
 #[test]
 #[serial]
 fn env_var_unset_defaults_to_info() {
-    std::env::remove_var("NANOLOG_LEVEL");
+    std::env::remove_var("NANOLOGGER_LEVEL");
     let builder = LoggerBuilder::new();
     assert_eq!(builder.get_level(), LogLevel::Info);
 }

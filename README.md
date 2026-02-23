@@ -28,7 +28,7 @@ Most Rust logging crates are feature-rich but pull in large dependency trees or 
 - Combined logger with per-output level filtering
 - Module allow/deny filtering
 - Runtime level changes
-- Environment variable configuration (`NANOLOG_LEVEL`)
+- Environment variable configuration (`NANOLOGGER_LEVEL`)
 - Optional `log` facade backend (feature flag)
 
 ## Comparison
@@ -164,10 +164,10 @@ Named threads show their name; unnamed threads show `ThreadId(N)`.
 
 ### Environment variable ([example](examples/env_level.rs))
 
-The builder reads `NANOLOG_LEVEL` from the environment automatically. If unset or invalid, it defaults to `Info`.
+The builder reads `NANOLOGGER_LEVEL` from the environment automatically. If unset or invalid, it defaults to `Info`.
 
 ```sh
-NANOLOG_LEVEL=trace cargo run
+NANOLOGGER_LEVEL=trace cargo run
 ```
 
 ### Runtime level changes
@@ -388,7 +388,7 @@ pub enum LogLevel {
 
 | Method | Returns | Description |
 |--------|---------|-------------|
-| `LoggerBuilder::new()` | `LoggerBuilder` | New builder. Reads `NANOLOG_LEVEL` env var, defaults to `Info` |
+| `LoggerBuilder::new()` | `LoggerBuilder` | New builder. Reads `NANOLOGGER_LEVEL` env var, defaults to `Info` |
 | `.level(level)` | `Self` | Set minimum log level |
 | `.get_level()` | `LogLevel` | Get currently configured level |
 | `.timestamps(enabled)` | `Self` | Enable/disable `HH:MM:SS.mmm` timestamp prefix |

@@ -27,7 +27,7 @@ fn randomize_case(s: &str, seed: &[bool]) -> String {
 }
 
 proptest! {
-    /// NANOLOG_LEVEL round-trips through any case variation.
+    /// NANOLOGGER_LEVEL round-trips through any case variation.
     #[test]
     #[serial]
     fn env_var_round_trip_case_insensitive(
@@ -36,21 +36,21 @@ proptest! {
     ) {
         let level_str = level.to_string();
         let randomized = randomize_case(&level_str, &case_bits);
-        std::env::set_var("NANOLOG_LEVEL", &randomized);
+        std::env::set_var("NANOLOGGER_LEVEL", &randomized);
         let builder = LoggerBuilder::new();
-        std::env::remove_var("NANOLOG_LEVEL");
+        std::env::remove_var("NANOLOGGER_LEVEL");
         prop_assert_eq!(builder.get_level(), level);
     }
 
-    /// Invalid NANOLOG_LEVEL values fall back to Info.
+    /// Invalid NANOLOGGER_LEVEL values fall back to Info.
     #[test]
     #[serial]
     fn invalid_env_var_falls_back_to_info(s in "[a-zA-Z0-9_]{1,20}") {
         let valid = ["error", "warn", "info", "debug", "trace"];
         prop_assume!(!valid.contains(&s.to_ascii_lowercase().as_str()));
-        std::env::set_var("NANOLOG_LEVEL", &s);
+        std::env::set_var("NANOLOGGER_LEVEL", &s);
         let builder = LoggerBuilder::new();
-        std::env::remove_var("NANOLOG_LEVEL");
+        std::env::remove_var("NANOLOGGER_LEVEL");
         prop_assert_eq!(builder.get_level(), LogLevel::Info);
     }
 
@@ -61,9 +61,9 @@ proptest! {
         env_level in arb_log_level(),
         explicit_level in arb_log_level()
     ) {
-        std::env::set_var("NANOLOG_LEVEL", env_level.to_string());
+        std::env::set_var("NANOLOGGER_LEVEL", env_level.to_string());
         let builder = LoggerBuilder::new().level(explicit_level);
-        std::env::remove_var("NANOLOG_LEVEL");
+        std::env::remove_var("NANOLOGGER_LEVEL");
         prop_assert_eq!(builder.get_level(), explicit_level);
     }
 }
