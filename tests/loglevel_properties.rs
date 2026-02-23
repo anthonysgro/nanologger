@@ -59,3 +59,14 @@ proptest! {
         prop_assert_eq!(LogLevel::from_u8(val), None);
     }
 }
+
+/// ParseLevelError Display includes the invalid input string.
+#[test]
+fn test_parse_level_error_display() {
+    let err: Result<LogLevel, _> = "garbage".parse();
+    let msg = err.unwrap_err().to_string();
+    assert!(
+        msg.contains("garbage"),
+        "ParseLevelError should include the invalid input, got: {msg}"
+    );
+}

@@ -25,3 +25,20 @@ fn test_init_error_is_std_error() {
     let err = InitError;
     let _: &dyn std::error::Error = &err;
 }
+
+#[test]
+fn test_parse_level_error_display() {
+    let err: Result<LogLevel, _> = "garbage".parse();
+    let msg = err.unwrap_err().to_string();
+    assert!(
+        msg.contains("garbage"),
+        "ParseLevelError should include the invalid input, got: {msg}"
+    );
+}
+
+/// LoggerBuilder::default() produces the same result as LoggerBuilder::new().
+#[test]
+fn test_logger_builder_default() {
+    let builder: LoggerBuilder = Default::default();
+    assert_eq!(builder.get_level(), LogLevel::Info);
+}
