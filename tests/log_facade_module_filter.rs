@@ -4,9 +4,9 @@
 //! that messages from denied modules are filtered out when using `log::info!`.
 #![cfg(feature = "log")]
 
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Cursor;
 use std::sync::{Arc, Mutex};
-use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 /// A shared buffer we can inspect after logging.
 fn shared_buffer() -> (LogOutput, Arc<Mutex<Cursor<Vec<u8>>>>) {

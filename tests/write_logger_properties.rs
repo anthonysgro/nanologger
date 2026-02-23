@@ -1,5 +1,5 @@
-use proptest::prelude::*;
 use nanologger::{LogLevel, LogOutput, LoggerBuilder};
+use proptest::prelude::*;
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 

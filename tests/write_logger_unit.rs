@@ -37,10 +37,19 @@ fn test_write_logger_receives_output() {
         .init()
         .expect("init should succeed");
 
-    nanologger::__log_with_context(LogLevel::Info, "hello write logger", "test_mod", "test.rs", 1);
+    nanologger::__log_with_context(
+        LogLevel::Info,
+        "hello write logger",
+        "test_mod",
+        "test.rs",
+        1,
+    );
 
     let output = buf_reader.contents();
-    assert!(output.contains("hello write logger"), "WriteLogger should capture the message, got: {output:?}");
+    assert!(
+        output.contains("hello write logger"),
+        "WriteLogger should capture the message, got: {output:?}"
+    );
     assert!(output.contains("[INFO]"), "Output should contain level tag");
     assert!(output.ends_with('\n'), "Output should end with newline");
 }

@@ -1,5 +1,5 @@
-use proptest::prelude::*;
 use nanologger::{LogLevel, LogOutput, LoggerBuilder};
+use proptest::prelude::*;
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -65,34 +65,41 @@ fn test_per_output_level_filtering() {
     let mut runner = proptest::test_runner::TestRunner::default();
 
     runner
-        .run(&(arb_log_level(), "[a-zA-Z0-9]{1,40}"), |(msg_level, msg)| {
-            // Clear all buffers
-            for (_, buf) in &bufs {
-                buf.clear();
-            }
-
-            nanologger::__log_with_context(msg_level, &msg, "test_mod", "test.rs", 1);
-
-            for (out_level, buf) in &bufs {
-                let output = buf.contents();
-                let should_emit = msg_level <= *out_level;
-
-                if should_emit {
-                    prop_assert!(
-                        output.contains(&msg),
-                        "Output with filter {:?} should contain message at {:?}: {:?}",
-                        out_level, msg_level, output
-                    );
-                } else {
-                    prop_assert!(
-                        output.is_empty(),
-                        "Output with filter {:?} should be empty for message at {:?}: {:?}",
-                        out_level, msg_level, output
-                    );
+        .run(
+            &(arb_log_level(), "[a-zA-Z0-9]{1,40}"),
+            |(msg_level, msg)| {
+                // Clear all buffers
+                for (_, buf) in &bufs {
+                    buf.clear();
                 }
-            }
 
-            Ok(())
-        })
+                nanologger::__log_with_context(msg_level, &msg, "test_mod", "test.rs", 1);
+
+                for (out_level, buf) in &bufs {
+                    let output = buf.contents();
+                    let should_emit = msg_level <= *out_level;
+
+                    if should_emit {
+                        prop_assert!(
+                            output.contains(&msg),
+                            "Output with filter {:?} should contain message at {:?}: {:?}",
+                            out_level,
+                            msg_level,
+                            output
+                        );
+                    } else {
+                        prop_assert!(
+                            output.is_empty(),
+                            "Output with filter {:?} should be empty for message at {:?}: {:?}",
+                            out_level,
+                            msg_level,
+                            output
+                        );
+                    }
+                }
+
+                Ok(())
+            },
+        )
         .unwrap();
 }

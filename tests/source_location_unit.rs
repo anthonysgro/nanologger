@@ -58,8 +58,18 @@ fn test_source_location_integration() {
 
     // The [file:line] should appear between the level tag and the message.
     let tag_pos = output.find("[INFO]").expect("should contain [INFO]");
-    let loc_pos = output.find("source_location_unit.rs:").expect("should contain file");
-    let msg_pos = output.find("location enabled").expect("should contain message");
-    assert!(tag_pos < loc_pos, "Level tag should come before source location");
-    assert!(loc_pos < msg_pos, "Source location should come before message");
+    let loc_pos = output
+        .find("source_location_unit.rs:")
+        .expect("should contain file");
+    let msg_pos = output
+        .find("location enabled")
+        .expect("should contain message");
+    assert!(
+        tag_pos < loc_pos,
+        "Level tag should come before source location"
+    );
+    assert!(
+        loc_pos < msg_pos,
+        "Source location should come before message"
+    );
 }

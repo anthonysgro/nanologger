@@ -5,7 +5,7 @@
 //!   NANOLOG_LEVEL=error cargo run --example env_level
 //!   cargo run --example env_level
 
-use nanologger::{LoggerBuilder, LogLevel, LogOutput};
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 fn main() {
     // The builder reads NANOLOG_LEVEL from the environment automatically.

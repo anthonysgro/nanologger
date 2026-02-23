@@ -1,5 +1,5 @@
-use proptest::prelude::*;
 use nanologger::{LogLevel, LogOutput, LoggerBuilder};
+use proptest::prelude::*;
 use std::io::Write;
 use std::sync::{Arc, Mutex};
 
@@ -66,7 +66,9 @@ fn test_combined_dispatches_all() {
                 prop_assert!(
                     output.contains(&msg),
                     "Child {} should contain message {:?}, got {:?}",
-                    i, msg, output
+                    i,
+                    msg,
+                    output
                 );
             }
 

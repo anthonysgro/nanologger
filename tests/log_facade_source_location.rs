@@ -1,9 +1,9 @@
 //! Tests that source location is captured from `log::Record` through the facade.
 #![cfg(feature = "log")]
 
+use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 use std::io::Cursor;
 use std::sync::{Arc, Mutex};
-use nanologger::{LogLevel, LogOutput, LoggerBuilder};
 
 #[derive(Clone)]
 struct SharedWriter(Arc<Mutex<Cursor<Vec<u8>>>>);

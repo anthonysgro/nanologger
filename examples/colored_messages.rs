@@ -7,9 +7,7 @@
 //! Run with: cargo run --example colored_messages
 
 use nanologger::{
-    info, warn, error, debug, trace,
-    Colorize, style,
-    LogLevel, LogOutput, LoggerBuilder,
+    debug, error, info, style, trace, warn, Colorize, LogLevel, LogOutput, LoggerBuilder,
 };
 
 fn main() {
@@ -40,7 +38,11 @@ fn main() {
 
     // --- Chaining styles ---
     info!("status: {}", "DEPLOYED".green().bold().underline());
-    error!("code {}: {}", 500.red().bold(), "Internal Server Error".red().dim());
+    error!(
+        "code {}: {}",
+        500.red().bold(),
+        "Internal Server Error".red().dim()
+    );
 
     // --- style() for dynamic/formatted values ---
     let version = style(format!("v{}.{}.{}", 0, 1, 0)).cyan().bold();
@@ -48,7 +50,10 @@ fn main() {
 
     // --- Conditional styling with .whenever() ---
     let is_tty = true;
-    info!("colored only in TTY: {}", "hello".green().bold().whenever(is_tty));
+    info!(
+        "colored only in TTY: {}",
+        "hello".green().bold().whenever(is_tty)
+    );
     info!("never colored: {}", "plain".red().whenever(false));
 
     // --- Decorative masking ---

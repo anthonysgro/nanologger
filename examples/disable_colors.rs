@@ -12,7 +12,7 @@
 //! The example also shows how to force colors off from code using
 //! nanocolor::set_colors_override(false).
 
-use nanologger::{LogLevel, LoggerBuilder, Colorize};
+use nanologger::{Colorize, LogLevel, LoggerBuilder};
 
 fn main() {
     LoggerBuilder::new()

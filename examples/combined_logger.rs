@@ -10,8 +10,8 @@ fn main() {
 
     LoggerBuilder::new()
         .level(LogLevel::Trace)
-        .add_output(LogOutput::term(LogLevel::Warn))          // terminal: Warn and above
-        .add_output(LogOutput::writer(LogLevel::Trace, file))  // file: everything
+        .add_output(LogOutput::term(LogLevel::Warn)) // terminal: Warn and above
+        .add_output(LogOutput::writer(LogLevel::Trace, file)) // file: everything
         .init()
         .unwrap();
 

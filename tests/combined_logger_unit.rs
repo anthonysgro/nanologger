@@ -37,7 +37,7 @@ fn test_combined_logger_multiple_outputs() {
         .level(LogLevel::Trace)
         .add_output(LogOutput::term(LogLevel::Error)) // Term output, only errors
         .add_output(LogOutput::writer(LogLevel::Trace, buf1)) // Writer 1, all levels
-        .add_output(LogOutput::writer(LogLevel::Warn, buf2))  // Writer 2, warn and above
+        .add_output(LogOutput::writer(LogLevel::Warn, buf2)) // Writer 2, warn and above
         .init()
         .expect("init should succeed");
 

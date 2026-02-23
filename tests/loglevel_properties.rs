@@ -1,5 +1,5 @@
-use proptest::prelude::*;
 use nanologger::LogLevel;
+use proptest::prelude::*;
 use std::str::FromStr;
 
 fn arb_log_level() -> impl Strategy<Value = LogLevel> {

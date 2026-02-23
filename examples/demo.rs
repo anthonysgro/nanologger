@@ -1,4 +1,4 @@
-use nanologger::{LoggerBuilder, LogLevel};
+use nanologger::{LogLevel, LoggerBuilder};
 
 fn main() {
     LoggerBuilder::new()

@@ -16,9 +16,7 @@
 //!   cargo run --example kitchen_sink --features log
 
 use nanologger::{
-    info, warn, error, debug, trace,
-    Colorize, style,
-    LogLevel, LogOutput, LoggerBuilder,
+    debug, error, info, style, trace, warn, Colorize, LogLevel, LogOutput, LoggerBuilder,
 };
 use std::fs::File;
 
@@ -27,18 +25,20 @@ fn main() {
     let file = File::create("kitchen_sink.log").expect("failed to create log file");
 
     LoggerBuilder::new()
-        .level(LogLevel::Trace)                                // global: accept everything
-        .timestamps(true)                                      // prepend HH:MM:SS.mmm
-        .source_location(true)                                 // append [file:line]
-        .thread_info(true)                                     // show (thread-name) or (ThreadId)
-        .module_allow(vec![                                    // only allow our own modules
+        .level(LogLevel::Trace) // global: accept everything
+        .timestamps(true) // prepend HH:MM:SS.mmm
+        .source_location(true) // append [file:line]
+        .thread_info(true) // show (thread-name) or (ThreadId)
+        .module_allow(vec![
+            // only allow our own modules
             "kitchen_sink".into(),
         ])
-        .module_deny(vec![                                     // but silence a noisy submodule
+        .module_deny(vec![
+            // but silence a noisy submodule
             "kitchen_sink::noisy".into(),
         ])
-        .add_output(LogOutput::term(LogLevel::Info))           // terminal: Info and above
-        .add_output(LogOutput::writer(LogLevel::Trace, file))  // file: everything
+        .add_output(LogOutput::term(LogLevel::Info)) // terminal: Info and above
+        .add_output(LogOutput::writer(LogLevel::Trace, file)) // file: everything
         .init()
         .expect("logger already initialized");
 
@@ -47,7 +47,11 @@ fn main() {
     error!("disk usage at {}%", 98.red().bold());
     warn!("connection pool running low: {} available", 2.yellow());
     info!("server listening on {}", "0.0.0.0:8080".cyan().bold());
-    debug!("loaded {} routes in {:?}", 42, std::time::Duration::from_millis(3));
+    debug!(
+        "loaded {} routes in {:?}",
+        42,
+        std::time::Duration::from_millis(3)
+    );
     trace!("entering main()");
 
     // --- Styled message content ---
@@ -95,7 +99,10 @@ fn main() {
 
     #[cfg(not(feature = "log"))]
     {
-        info!("(re-run with {} to see log facade integration)", "--features log".dim());
+        info!(
+            "(re-run with {} to see log facade integration)",
+            "--features log".dim()
+        );
     }
 
     // --- Module filter demo ---
@@ -115,9 +122,19 @@ fn main() {
             &["kitchen_sink".into()],
             &["kitchen_sink::noisy".into()],
         );
-        info!("  {module:35} => {}", if allowed { "allowed".green() } else { "denied".red() });
+        info!(
+            "  {module:35} => {}",
+            if allowed {
+                "allowed".green()
+            } else {
+                "denied".red()
+            }
+        );
     }
 
-    info!("done — check {} for the full trace-level output", "kitchen_sink.log".underline());
+    info!(
+        "done — check {} for the full trace-level output",
+        "kitchen_sink.log".underline()
+    );
     eprintln!();
 }

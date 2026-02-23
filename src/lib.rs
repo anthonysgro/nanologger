@@ -188,8 +188,8 @@ impl LogLevel {
     pub fn tag(&self) -> String {
         match self {
             LogLevel::Error => "[ERROR]".to_string(),
-            LogLevel::Warn =>  "[WARN] ".to_string(),
-            LogLevel::Info =>  "[INFO] ".to_string(),
+            LogLevel::Warn => "[WARN] ".to_string(),
+            LogLevel::Info => "[INFO] ".to_string(),
             LogLevel::Debug => "[DEBUG]".to_string(),
             LogLevel::Trace => "[TRACE]".to_string(),
         }
@@ -313,9 +313,6 @@ impl LogOutput {
     }
 }
 
-
-
-
 // ---------------------------------------------------------------------------
 // Global Logger
 // ---------------------------------------------------------------------------
@@ -342,8 +339,7 @@ fn format_current_timestamp() -> String {
 impl Logger {
     /// Returns the configured log level.
     pub fn level(&self) -> LogLevel {
-        LogLevel::from_u8(self.level.load(Ordering::Relaxed))
-            .unwrap_or(LogLevel::Info)
+        LogLevel::from_u8(self.level.load(Ordering::Relaxed)).unwrap_or(LogLevel::Info)
     }
 }
 
@@ -453,16 +449,14 @@ impl LoggerBuilder {
         {
             // SAFETY: LOGGER is a static OnceLock that was just set above and will
             // never be dropped, so the reference is valid for 'static.
-            let logger_ref: &'static Logger = unsafe {
-                &*(LOGGER.get().expect("just set") as *const Logger)
-            };
+            let logger_ref: &'static Logger =
+                unsafe { &*(LOGGER.get().expect("just set") as *const Logger) };
             log::set_logger(logger_ref).expect("log facade logger already set");
             log::set_max_level(logger_ref.level().to_log_level_filter());
         }
 
         Ok(())
     }
-
 }
 
 impl Default for LoggerBuilder {
@@ -504,7 +498,13 @@ pub fn set_level(level: LogLevel) {
 #[doc(hidden)]
 /// Hidden public function used by the log macros. Do not call directly.
 #[doc(hidden)]
-pub fn __log_with_context(level: LogLevel, message: &str, module_path: &str, file: &str, line: u32) {
+pub fn __log_with_context(
+    level: LogLevel,
+    message: &str,
+    module_path: &str,
+    file: &str,
+    line: u32,
+) {
     let Some(logger) = LOGGER.get() else {
         return;
     };
@@ -549,15 +549,32 @@ pub fn __log_with_context(level: LogLevel, message: &str, module_path: &str, fil
                     continue;
                 }
                 let use_color = std::io::stderr().is_terminal();
-                let formatted = format_message_full(level, message, use_color, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                let formatted = format_message_full(
+                    level,
+                    message,
+                    use_color,
+                    ts.as_deref(),
+                    source_loc,
+                    thread_info_str.as_deref(),
+                );
                 let mut stderr = std::io::stderr().lock();
                 let _ = stderr.write_all(formatted.as_bytes());
             }
-            LogOutput::Writer { level: out_level, writer } => {
+            LogOutput::Writer {
+                level: out_level,
+                writer,
+            } => {
                 if level > *out_level {
                     continue;
                 }
-                let formatted = format_message_full(level, message, false, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                let formatted = format_message_full(
+                    level,
+                    message,
+                    false,
+                    ts.as_deref(),
+                    source_loc,
+                    thread_info_str.as_deref(),
+                );
                 if let Ok(mut w) = writer.lock() {
                     let _ = w.write_all(formatted.as_bytes());
                 }
@@ -566,7 +583,14 @@ pub fn __log_with_context(level: LogLevel, message: &str, module_path: &str, fil
                 if level > *out_level {
                     continue;
                 }
-                let formatted = format_message_full(level, message, false, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                let formatted = format_message_full(
+                    level,
+                    message,
+                    false,
+                    ts.as_deref(),
+                    source_loc,
+                    thread_info_str.as_deref(),
+                );
                 print!("{formatted}");
             }
         }
@@ -612,7 +636,6 @@ macro_rules! trace {
         $crate::__log_with_context($crate::LogLevel::Trace, &format!($($arg)*), module_path!(), file!(), line!())
     };
 }
-
 
 // ---------------------------------------------------------------------------
 // Log facade integration (feature = "log")
@@ -694,15 +717,32 @@ impl log::Log for Logger {
                         continue;
                     }
                     let use_color = std::io::stderr().is_terminal();
-                    let formatted = format_message_full(level, &message, use_color, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                    let formatted = format_message_full(
+                        level,
+                        &message,
+                        use_color,
+                        ts.as_deref(),
+                        source_loc,
+                        thread_info_str.as_deref(),
+                    );
                     let mut stderr = std::io::stderr().lock();
                     let _ = stderr.write_all(formatted.as_bytes());
                 }
-                LogOutput::Writer { level: out_level, writer } => {
+                LogOutput::Writer {
+                    level: out_level,
+                    writer,
+                } => {
                     if level > *out_level {
                         continue;
                     }
-                    let formatted = format_message_full(level, &message, false, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                    let formatted = format_message_full(
+                        level,
+                        &message,
+                        false,
+                        ts.as_deref(),
+                        source_loc,
+                        thread_info_str.as_deref(),
+                    );
                     if let Ok(mut w) = writer.lock() {
                         let _ = w.write_all(formatted.as_bytes());
                     }
@@ -711,7 +751,14 @@ impl log::Log for Logger {
                     if level > *out_level {
                         continue;
                     }
-                    let formatted = format_message_full(level, &message, false, ts.as_deref(), source_loc, thread_info_str.as_deref());
+                    let formatted = format_message_full(
+                        level,
+                        &message,
+                        false,
+                        ts.as_deref(),
+                        source_loc,
+                        thread_info_str.as_deref(),
+                    );
                     print!("{formatted}");
                 }
             }
@@ -720,7 +767,6 @@ impl log::Log for Logger {
 
     fn flush(&self) {}
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -743,7 +789,11 @@ mod tests {
     fn test_error_color_is_red_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Error, "fail", true);
-        assert!(output.contains("\x1b[1;31m"), "Error prefix should be bold red, got: {:?}", output);
+        assert!(
+            output.contains("\x1b[1;31m"),
+            "Error prefix should be bold red, got: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
@@ -751,7 +801,11 @@ mod tests {
     fn test_warn_color_is_yellow_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Warn, "caution", true);
-        assert!(output.contains("\x1b[1;33m"), "Warn prefix should be bold yellow, got: {:?}", output);
+        assert!(
+            output.contains("\x1b[1;33m"),
+            "Warn prefix should be bold yellow, got: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
@@ -759,7 +813,11 @@ mod tests {
     fn test_info_color_is_green_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Info, "ok", true);
-        assert!(output.contains("\x1b[1;32m"), "Info prefix should be bold green, got: {:?}", output);
+        assert!(
+            output.contains("\x1b[1;32m"),
+            "Info prefix should be bold green, got: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
@@ -767,7 +825,11 @@ mod tests {
     fn test_debug_color_is_blue_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Debug, "details", true);
-        assert!(output.contains("\x1b[1;34m"), "Debug prefix should be bold blue, got: {:?}", output);
+        assert!(
+            output.contains("\x1b[1;34m"),
+            "Debug prefix should be bold blue, got: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
@@ -775,20 +837,28 @@ mod tests {
     fn test_trace_color_is_magenta_bold() {
         nanocolor::set_colors_override(true);
         let output = format_message(LogLevel::Trace, "verbose", true);
-        assert!(output.contains("\x1b[1;35m"), "Trace prefix should be bold magenta, got: {:?}", output);
+        assert!(
+            output.contains("\x1b[1;35m"),
+            "Trace prefix should be bold magenta, got: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
     #[test]
     fn test_plain_mode_no_ansi() {
         let output = format_message(LogLevel::Error, "test", false);
-        assert!(!output.contains("\x1b["), "Plain mode must not contain ANSI sequences");
+        assert!(
+            !output.contains("\x1b["),
+            "Plain mode must not contain ANSI sequences"
+        );
         assert_eq!(output, "[ERROR] test\n");
     }
 
     #[test]
     fn test_timestamp_prepended_plain() {
-        let output = format_message_with_timestamp(LogLevel::Info, "hello", false, Some("14:30:05"));
+        let output =
+            format_message_with_timestamp(LogLevel::Info, "hello", false, Some("14:30:05"));
         assert_eq!(output, "14:30:05 [INFO]  hello\n");
     }
 
@@ -796,8 +866,16 @@ mod tests {
     fn test_timestamp_prepended_color() {
         nanocolor::set_colors_override(true);
         let output = format_message_with_timestamp(LogLevel::Error, "fail", true, Some("09:00:00"));
-        assert!(output.starts_with("09:00:00 "), "Timestamp should be at the start: {:?}", output);
-        assert!(output.contains("\x1b[1;31m"), "Should still have bold red: {:?}", output);
+        assert!(
+            output.starts_with("09:00:00 "),
+            "Timestamp should be at the start: {:?}",
+            output
+        );
+        assert!(
+            output.contains("\x1b[1;31m"),
+            "Should still have bold red: {:?}",
+            output
+        );
         nanocolor::clear_colors_override();
     }
 
@@ -812,19 +890,48 @@ mod tests {
 
     #[test]
     fn test_plain_text_no_ansi_full() {
-        let output = format_message_full(LogLevel::Info, "plain text check", false, None, None, None);
-        assert!(!output.contains("\x1b["), "Should have no ANSI codes: {output:?}");
-        assert!(output.contains("[INFO]"), "Should contain level tag: {output:?}");
-        assert!(output.contains("plain text check"), "Should contain message: {output:?}");
+        let output =
+            format_message_full(LogLevel::Info, "plain text check", false, None, None, None);
+        assert!(
+            !output.contains("\x1b["),
+            "Should have no ANSI codes: {output:?}"
+        );
+        assert!(
+            output.contains("[INFO]"),
+            "Should contain level tag: {output:?}"
+        );
+        assert!(
+            output.contains("plain text check"),
+            "Should contain message: {output:?}"
+        );
     }
 
     #[test]
     fn test_thread_info_format() {
-        let output = format_message_full(LogLevel::Warn, "combined test", false, None, None, Some("my-thread"));
-        assert!(output.contains("(my-thread)"), "Should contain thread info: {output:?}");
-        assert!(output.contains("[WARN]"), "Should contain level tag: {output:?}");
-        assert!(output.contains("combined test"), "Should contain message: {output:?}");
-        assert!(!output.contains("\x1b["), "Should have no ANSI codes: {output:?}");
+        let output = format_message_full(
+            LogLevel::Warn,
+            "combined test",
+            false,
+            None,
+            None,
+            Some("my-thread"),
+        );
+        assert!(
+            output.contains("(my-thread)"),
+            "Should contain thread info: {output:?}"
+        );
+        assert!(
+            output.contains("[WARN]"),
+            "Should contain level tag: {output:?}"
+        );
+        assert!(
+            output.contains("combined test"),
+            "Should contain message: {output:?}"
+        );
+        assert!(
+            !output.contains("\x1b["),
+            "Should have no ANSI codes: {output:?}"
+        );
     }
 
     // ── format_message property tests ──
@@ -1001,8 +1108,7 @@ mod tests {
     }
 
     fn arb_module_path() -> impl Strategy<Value = String> {
-        prop::collection::vec(arb_module_segment(), 1..=4)
-            .prop_map(|segs| segs.join("::"))
+        prop::collection::vec(arb_module_segment(), 1..=4).prop_map(|segs| segs.join("::"))
     }
 
     fn arb_filter_list() -> impl Strategy<Value = Vec<String>> {
