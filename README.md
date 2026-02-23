@@ -2,6 +2,9 @@
 
 [![Crates.io](https://img.shields.io/crates/v/nanologger)](https://crates.io/crates/nanologger)
 [![Docs.rs](https://docs.rs/nanologger/badge.svg)](https://docs.rs/nanologger/latest/nanologger/)
+[![Build Status](https://github.com/anthonysgro/nanologger/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/anthonysgro/nanologger/actions)
+[![Coverage Status](https://coveralls.io/repos/github/anthonysgro/nanologger/badge.svg?branch=main)](https://coveralls.io/github/anthonysgro/nanologger?branch=main)
+[![License](https://img.shields.io/crates/l/nanologger)](https://crates.io/crates/nanologger)
 
 A minimal, colored logger for Rust CLI applications.
 
